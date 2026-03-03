@@ -11,7 +11,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2VyZW5heGllIiwiYSI6ImNta2RnM29ocjBiYmQzZnB3Z
 ────────────────────────────────────────── */
 map.addSource('restaurants', {
   type: 'geojson',
-  data: 'https://serena8886.github.io/GGR472_webmap_lab3/restaurant.geojson'
+  data: 'https://serena8886.github.io/GGR472_webmap_lab3/restaurants.geojson'
 });
 
 /* ──────────────────────────────────────────
