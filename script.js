@@ -3,7 +3,6 @@
    script.js: Mapbox initialisation, expressions, and events
 ══════════════════════════════════════════════ */
 
-// ── 🔑 Replace with your own Mapbox token ──
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2VyZW5heGllIiwiYSI6ImNta2RnM29ocjBiYmQzZnB3ZjYxNnc0Y2YifQ.OKLpStuEaqsA1l9cHya4Hw';
 
 /* ══════════════════════════════════════════════
@@ -40,11 +39,10 @@ map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 map.on('load', () => {
 
   // ── Add GeoJSON source ──
-  // After publishing to GitHub Pages, use the Pages URL format:
-  // https://yourusername.github.io/repositoryname/restaurant.geojson
+ 
   map.addSource('restaurants', {
     type: 'geojson',
-    data: 'https://github.com/serena8886/GGR472_webmap_lab3/blob/main/restaurant.geojson'  //
+    data: 'https://github.com/serena8886/GGR472_webmap_lab3/blob/main/restaurant.geojson'
   });
 
   // ── Add circle layer with data-driven styling ──
@@ -65,7 +63,7 @@ map.on('load', () => {
       ],
 
       // CAMERA EXPRESSION: 'interpolate' smoothly scales circle size with zoom
-      // This is a ramp/scale expression
+      // ramp/scale expression
       'circle-radius': [
         'interpolate', ['linear'], ['zoom'],
         10, 4,   // zoom 10 → radius 4px
