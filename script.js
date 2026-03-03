@@ -1,17 +1,14 @@
-/* ──────────────────────────────────────────
-   GGR472 Lab 3 – Toronto DineSafe Map
-   map.js: Mapbox initialisation, expressions, and events
-────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   GGR472 Lab 3 - Toronto DineSafe Map
+   script.js: Mapbox initialisation, expressions, and events
+══════════════════════════════════════════════ */
+
+// ── 🔑 Replace with your own Mapbox token ──
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2VyZW5heGllIiwiYSI6ImNta2RnM29ocjBiYmQzZnB3ZjYxNnc0Y2YifQ.OKLpStuEaqsA1l9cHya4Hw';
-/* ──────────────────────────────────────────
-   Sample DineSafe GeoJSON data
-   (30 restaurants across Toronto)
-   In a real project, load the full dataset
-   from https://open.toronto.ca/dataset/dinesafe/
-────────────────────────────────────────── */
-/* ──────────────────────────────────────────
-   Helper: map status → CSS badge class
-────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════
+   Helper lookups: status → colour / badge class
+══════════════════════════════════════════════ */
 const statusBadge = {
   'Pass':             'badge-pass',
   'Conditional Pass': 'badge-cond',
@@ -24,9 +21,9 @@ const statusColor = {
   'Closed':           '#ef5350'
 };
 
-/* ──────────────────────────────────────────
+/* ══════════════════════════════════════════════
    Initialise map
-────────────────────────────────────────── */
+══════════════════════════════════════════════ */
 const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/dark-v11',
@@ -37,44 +34,43 @@ const map = new mapboxgl.Map({
 // Navigation control (zoom +/- buttons)
 map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-/* ──────────────────────────────────────────
-   map.on('load') – add source + layer after
-   the base style has finished loading
-────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   map.on('load') – runs after base style loads
+══════════════════════════════════════════════ */
 map.on('load', () => {
 
   // ── Add GeoJSON source ──
+  // After publishing to GitHub Pages, use the Pages URL format:
+  // https://yourusername.github.io/repositoryname/restaurant.geojson
   map.addSource('restaurants', {
-  type: 'geojson',
-  data: 'https://serena8886.github.io/GGR472_webmap_lab3/restaurant.geojson'
-});
-  // ── Add circle layer ──
+    type: 'geojson',
+    data: 'restaurant.geojson'  // ← update this to your GitHub Pages URL after publishing
+  });
+
+  // ── Add circle layer with data-driven styling ──
   map.addLayer({
     id: 'restaurants-layer',
     type: 'circle',
     source: 'restaurants',
     paint: {
-      /*
-        DATA EXPRESSION: 'match' selects a colour based on the
-        'status' property of each feature (conditional expression).
-      */
+
+      // DATA EXPRESSION: 'match' picks colour based on 'status' property
+      // This is a conditional expression
       'circle-color': [
         'match', ['get', 'status'],
         'Pass',             '#4caf50',
         'Conditional Pass', '#ff9800',
         'Closed',           '#ef5350',
-        '#aaa' // fallback
+        '#aaa' // fallback colour
       ],
 
-      /*
-        CAMERA EXPRESSION: 'interpolate' smoothly scales circle
-        radius as the user zooms in/out (ramp/scale expression).
-      */
+      // CAMERA EXPRESSION: 'interpolate' smoothly scales circle size with zoom
+      // This is a ramp/scale expression
       'circle-radius': [
         'interpolate', ['linear'], ['zoom'],
-        10, 4,   // at zoom 10 → radius 4px
-        14, 9,   // at zoom 14 → radius 9px
-        17, 14   // at zoom 17 → radius 14px
+        10, 4,   // zoom 10 → radius 4px
+        14, 9,   // zoom 14 → radius 9px
+        17, 14   // zoom 17 → radius 14px
       ],
 
       'circle-stroke-width': 1.5,
@@ -83,9 +79,11 @@ map.on('load', () => {
     }
   });
 
-  /* ──────────────────────────────────────
+  /* ──────────────────────────────────────────
      EVENT: click → show Popup
-  ────────────────────────────────────── */
+     e.lngLat gives coordinates of click
+     e.features[0].properties gives feature data
+  ────────────────────────────────────────── */
   const popup = new mapboxgl.Popup({ closeButton: true, closeOnClick: true });
 
   map.on('click', 'restaurants-layer', (e) => {
@@ -104,10 +102,9 @@ map.on('load', () => {
       .addTo(map);
   });
 
-  /* ──────────────────────────────────────
-     EVENT: mouseenter / mouseleave →
-     change cursor style
-  ────────────────────────────────────── */
+  /* ──────────────────────────────────────────
+     EVENT: mouseenter / mouseleave → cursor
+  ────────────────────────────────────────── */
   map.on('mouseenter', 'restaurants-layer', () => {
     map.getCanvas().style.cursor = 'pointer';
   });
@@ -116,10 +113,9 @@ map.on('load', () => {
     map.getCanvas().style.cursor = '';
   });
 
-  /* ──────────────────────────────────────
-     EVENT: mousemove → update sidebar
-     info box with hovered feature details
-  ────────────────────────────────────── */
+  /* ──────────────────────────────────────────
+     EVENT: mousemove → update sidebar info box
+  ────────────────────────────────────────── */
   map.on('mousemove', 'restaurants-layer', (e) => {
     const p = e.features[0].properties;
     document.getElementById('info').innerHTML = `
@@ -136,31 +132,24 @@ map.on('load', () => {
 
 }); // end map.on('load')
 
-/* ──────────────────────────────────────────
+/* ══════════════════════════════════════════════
    FILTER BUTTONS
-   Each button applies a filter expression
-   to the layer, showing only features
-   where 'status' matches the selection.
-────────────────────────────────────────── */
-
-// Track which filter is currently active
+   Uses setFilter() with a Mapbox filter expression
+   to show only features matching the selected status
+══════════════════════════════════════════════ */
 let activeFilter = 'all';
 
 function setFilter(status) {
   activeFilter = status;
 
-  /*
-    FILTER EXPRESSION: setFilter applies a Mapbox expression
-    to control which features are rendered.
-    null removes the filter entirely (show all).
-  */
+  // FILTER EXPRESSION: null = show all, otherwise filter by status value
   if (status === 'all') {
     map.setFilter('restaurants-layer', null);
   } else {
     map.setFilter('restaurants-layer', ['==', ['get', 'status'], status]);
   }
 
-  // Update button visual state (dim all, then un-dim active one)
+  // Update button visual state
   document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.add('inactive'));
 
   const idMap = {
@@ -172,7 +161,6 @@ function setFilter(status) {
   document.getElementById(idMap[status]).classList.remove('inactive');
 }
 
-// Attach click listeners to each button
 document.getElementById('btn-all')   .addEventListener('click', () => setFilter('all'));
 document.getElementById('btn-pass')  .addEventListener('click', () => setFilter('Pass'));
 document.getElementById('btn-cond')  .addEventListener('click', () => setFilter('Conditional Pass'));

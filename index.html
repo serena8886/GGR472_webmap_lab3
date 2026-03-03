@@ -14,13 +14,14 @@
 </head>
 <body>
 
-  <!-- SIDEBAR must come first in flex layout -->
+  <!-- SIDEBAR -->
   <div id="sidebar">
     <div>
       <h1>🍔 Toronto DineSafe</h1>
       <p class="subtitle">Restaurant inspection results across Toronto</p>
     </div>
 
+    <!-- Filter buttons -->
     <div class="filter-group">
       <label>Filter by Status</label>
       <button class="filter-btn" id="btn-all">
@@ -37,6 +38,7 @@
       </button>
     </div>
 
+    <!-- Legend -->
     <div class="legend">
       <label>Legend</label>
       <div class="legend-item">
@@ -50,12 +52,14 @@
       </div>
     </div>
 
+    <!-- Hover info box -->
     <div id="info">Hover over a restaurant to see details.</div>
   </div>
 
   <!-- MAP container -->
   <div id="map"></div>
 
+  <!-- Script loaded last -->
   <script src="script.js"></script>
 </body>
 </html>
