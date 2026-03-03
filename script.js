@@ -8,12 +8,6 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2VyZW5heGllIiwiYSI6ImNta2RnM29ocjBiYmQzZnB3Z
    (30 restaurants across Toronto)
    In a real project, load the full dataset
    from https://open.toronto.ca/dataset/dinesafe/
-────────────────────────────────────────── */
-map.addSource('restaurants', {
-  type: 'geojson',
-  data: 'https://serena8886.github.io/GGR472_webmap_lab3/restaurant.geojson'
-});
-
 /* ──────────────────────────────────────────
    Helper: map status → CSS badge class
 ────────────────────────────────────────── */
@@ -50,10 +44,9 @@ map.on('load', () => {
 
   // ── Add GeoJSON source ──
   map.addSource('restaurants', {
-    type: 'geojson',
-    data: dinesafeData
-  });
-
+  type: 'geojson',
+  data: 'https://serena8886.github.io/GGR472_webmap_lab3/restaurant.geojson'
+});
   // ── Add circle layer ──
   map.addLayer({
     id: 'restaurants-layer',
