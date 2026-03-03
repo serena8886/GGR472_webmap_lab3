@@ -8,6 +8,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2VyZW5heGllIiwiYSI6ImNta2RnM29ocjBiYmQzZnB3Z
    (30 restaurants across Toronto)
    In a real project, load the full dataset
    from https://open.toronto.ca/dataset/dinesafe/
+────────────────────────────────────────── */
 /* ──────────────────────────────────────────
    Helper: map status → CSS badge class
 ────────────────────────────────────────── */
