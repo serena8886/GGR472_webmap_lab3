@@ -44,7 +44,7 @@ map.on('load', () => {
   // https://yourusername.github.io/repositoryname/restaurant.geojson
   map.addSource('restaurants', {
     type: 'geojson',
-    data: 'restaurant.geojson'  // ← update this to your GitHub Pages URL after publishing
+    data: 'https://github.com/serena8886/GGR472_webmap_lab3/blob/main/restaurant.geojson'  //
   });
 
   // ── Add circle layer with data-driven styling ──
