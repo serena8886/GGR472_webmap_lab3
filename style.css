@@ -1,6 +1,3 @@
-/* ──────────────────────────────────────
-   Reset & layout
-────────────────────────────────────── */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,11 +11,10 @@ body {
   overflow: hidden;
 }
 
-/* ──────────────────────────────────────
-   Sidebar
-────────────────────────────────────── */
+/* ── Sidebar ── */
 #sidebar {
   width: 240px;
+  min-width: 240px;
   background: #1a1a2e;
   color: #eee;
   display: flex;
@@ -26,7 +22,6 @@ body {
   padding: 20px 16px;
   gap: 20px;
   z-index: 10;
-  flex-shrink: 0;
 }
 
 #sidebar h1 {
@@ -41,7 +36,6 @@ body {
   margin-top: 4px;
 }
 
-/* ── Filter buttons ── */
 .filter-group {
   display: flex;
   flex-direction: column;
@@ -75,7 +69,6 @@ body {
   transform: translateX(2px);
 }
 
-/* Dimmed state when not active */
 .filter-btn.inactive {
   opacity: 0.35;
 }
@@ -92,7 +85,6 @@ body {
 #btn-cond   { background: #f57c00; }
 #btn-closed { background: #c62828; }
 
-/* ── Legend ── */
 .legend {
   display: flex;
   flex-direction: column;
@@ -113,7 +105,6 @@ body {
   flex-shrink: 0;
 }
 
-/* ── Hover info box ── */
 #info {
   margin-top: auto;
   background: #16213e;
@@ -132,16 +123,13 @@ body {
   margin-bottom: 2px;
 }
 
-/* ──────────────────────────────────────
-   Map
-────────────────────────────────────── */
+/* ── Map takes remaining space ── */
 #map {
   flex: 1;
+  height: 100vh;
 }
 
-/* ──────────────────────────────────────
-   Mapbox Popup
-────────────────────────────────────── */
+/* ── Popup ── */
 .mapboxgl-popup-content {
   background: #1a1a2e;
   color: #eee;
@@ -150,7 +138,7 @@ body {
   font-size: 13px;
   line-height: 1.7;
   max-width: 240px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 .mapboxgl-popup-content strong {
@@ -160,12 +148,10 @@ body {
   margin-bottom: 4px;
 }
 
-/* Arrow tip colour matches popup background */
 .mapboxgl-popup-tip {
   border-top-color: #1a1a2e !important;
 }
 
-/* Status badge inside popup */
 .status-badge {
   display: inline-block;
   padding: 2px 8px;
