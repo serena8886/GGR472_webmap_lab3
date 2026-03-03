@@ -42,8 +42,7 @@ map.on('load', () => {
  
   map.addSource('restaurants', {
     type: 'geojson',
-    data: 'https://github.com/serena8886/GGR472_webmap_lab3/blob/main/restaurant.geojson'
-  });
+    data: 'https://serena8886.github.io/GGR472_webmap_lab3/restaurant.geojson'  });
 
   // ── Add circle layer with data-driven styling ──
   map.addLayer({
